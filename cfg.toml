@@ -1,0 +1,58 @@
+
+[my_config]
+my_attribute = "This is a new attribute that I need!"
+another_new_attribute = "Here is another one.  Add as many as you like."
+
+[sharepoint_config]
+sharepoint_site_url = "https://amdcloud.sharepoint.com/sites/IndirectProcurement"
+sharepoint_folder = "/Shared Documents/Indirect Chatbot/Knowledge Database for Chatbot"
+username = "username@amd.com"
+password = ""
+local_filepath = '/data'
+
+[llm_service_config]
+api_proxy_key = ""
+api_proxy_url = "https://llm-api.amd.com"
+llm_deployment_id = "swe-gpt35-turbo-exp1"
+vector_db_url = "http://dvue-vctrdb-vm1.amd.com:8080"
+vector_db_api_key = false
+embedding_engine = "text-embedding-ada-002"
+
+[query_config]
+system_role_prompt = "You are an assistant that helps people find information from the IT Knowledge base.\n You will provide answers exclusively from the context provided below.\n The context is based on the IT Knowledge Base Articles.\n You do not possess any knowledge beyond the given context and cannot offer instructions \n for getting, installing or downloading applications unless mentioned in the context.\n Rules:\n - Answer questions using only the context provided. NEVER use information outside of the Context Provided.\n - If the context is empty, respond with 'Sorry, I could not find your query in the IT Knowledge Base. Please check the list of available service requests below or provide more context in your query and try again!'.\n - If you can answer a question without context, state 'Sorry, I could not find your query in the IT Knowledge Base. Please check the list of available service requests below or provide more context in your query and try again!'.\n - Provide detailed instructions and highlight any prerequisites.\n - 'vpn' can be inferred as GlobalProtect VPN.\n - Don't skip but also don't add or modify any links or URLs from the context in your response.\n - Format the response nicely, use bullets if necessary.\n - Never ask the user to refer back to the context.\n - Example: If a question is about an application not mentioned in the context, do not attempt to answer the question.\n - Example: If the question is 'how do I get Outlook' and if we don't have any relevant context that can answer this, repond 'Sorry, I could not find your query in the IT Knowledge Base. Please check the list of available service requests below or provide more context in your query and try again!'\n Context: "
+all_top_n = -1
+context_top_n = 3
+top_n_documents = 3
+temperature = 0
+
+[[query_config.vector_classes]]
+label = "CustOpsArticle_Class"
+weaviate_class = "CustOpsArticle"
+properties = ["text", "filename", "url"]
+as_context = true
+url_property = "url"
+
+[[query_config.vector_classes]]
+label = "Blogs"
+class = "WTSXilinxBlogs"
+properties = ["text", "url",]
+as_context = true
+url_property = "url"
+
+[[query_config.vector_classes]]
+label = "Community"
+class = "WTSXilinxCommunity"
+properties = ["text", "linked_community_question", "url"]
+as_context = true
+url_property = "url"
+top_by_certainty = 0.9
+
+[[query_config.vector_classes]]
+label = "Knowledge Base"
+class = "WTSXilinxKnowledge"
+properties = ["text", "url",]
+as_context = true
+url_property = "url"
+
+[app_server_config]
+server_port = 5000
